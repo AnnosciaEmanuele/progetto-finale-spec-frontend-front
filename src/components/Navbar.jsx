@@ -22,8 +22,8 @@ function Navbar() {
                             </NavLink>
                         </li>
                         <li className="nav-item">
-                            <NavLink to="/add" className="nav-link">
-                                Aggiungi Gioco da Tavolo
+                            <NavLink to="/preferiti" className="nav-link">
+                                Preferiti ❤️️
                             </NavLink>
                         </li>
                     </ul>

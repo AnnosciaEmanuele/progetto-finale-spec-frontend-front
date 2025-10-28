@@ -56,13 +56,12 @@ function BoardgameList() {
           <tr>
             <th scope="col">Titolo</th>
             <th scope="col">Categoria</th>
-            <th scope="col">Prezzo</th>
-            <th scope="col">Anno Uscita</th>
+            <th scope="col"></th>
           </tr>
         </thead>
         <tbody>
           {boardgames.map((boardgame) => (
-            <TableRow key={boardgame.id} boardgame={boardgame} />
+            <TableRow key={boardgame.id ?? boardgame._id} boardgame={boardgame} />
           ))}
         </tbody>
       </table>

@@ -41,14 +41,8 @@ function useBoardgame() {
         axios.get(BASE_URL)
             .then(async (res) => {
                 const boardgameList = res.data;
-
-                const detailedBoardgames = await Promise.all(
-                    boardgameList.map(bg => 
-                        axios.get(`${BASE_URL}/${bg.id}`).then(res => res.data)
-                    )
-                );
                 
-                dispatch({ type: "FETCH_SUCCESS", payload: detailedBoardgames });
+                dispatch({ type: "FETCH_SUCCESS", payload: boardgameList });
             })
             .catch((err) => {
                 dispatch({ type: "FETCH_ERROR", payload: err });
