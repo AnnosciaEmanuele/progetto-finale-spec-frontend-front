@@ -1,0 +1,92 @@
+[
+  {
+    "title": "Cryptid",
+    "category": "Strategico",
+    "price": 59.99,
+    "realease_year": 2013,
+    "id": 1,
+    "createdAt": "2025-10-27T09:21:30.136Z",
+    "updatedAt": "2025-10-27T09:25:41.137Z"
+  },
+  {
+    "title": "Cyberflesh",
+    "category": "RogueLike",
+    "price": 79.99,
+    "realease_year": 2024,
+    "id": 2,
+    "createdAt": "2025-10-27T09:29:08.985Z",
+    "updatedAt": "2025-10-27T09:29:08.985Z"
+  },
+  {
+    "title": "King of Tokyo",
+    "category": "Building Game",
+    "price": 69.99,
+    "realease_year": 2019,
+    "id": 3,
+    "createdAt": "2025-10-27T09:29:55.317Z",
+    "updatedAt": "2025-10-27T09:29:55.317Z"
+  },
+  {
+    "title": "Horizon Zero Dawn The Board Game",
+    "category": "PvPvE Building Game",
+    "price": 149.99,
+    "realease_year": 2021,
+    "id": 4,
+    "createdAt": "2025-10-27T09:30:51.172Z",
+    "updatedAt": "2025-10-27T09:30:51.172Z"
+  },
+  {
+    "title": "Pathfinder",
+    "category": "RPG Game",
+    "price": 79.99,
+    "realease_year": 2007,
+    "id": 5,
+    "createdAt": "2025-10-27T09:31:27.138Z",
+    "updatedAt": "2025-10-27T09:31:27.138Z"
+  },
+  {
+    "title": "Magic the Gathering",
+    "category": "Trading Card Game",
+    "price": 59.99,
+    "realease_year": 1993,
+    "id": 6,
+    "createdAt": "2025-10-27T09:32:13.212Z",
+    "updatedAt": "2025-10-27T09:32:13.212Z"
+  },
+  {
+    "title": "Scacchi",
+    "category": "Strategico",
+    "price": 19.99,
+    "realease_year": 1000,
+    "id": 7,
+    "createdAt": "2025-10-27T09:32:44.850Z",
+    "updatedAt": "2025-10-27T09:32:44.850Z"
+  },
+  {
+    "title": "Dama",
+    "category": "Strategico",
+    "price": 19.99,
+    "realease_year": 1000,
+    "id": 8,
+    "createdAt": "2025-10-27T09:32:51.262Z",
+    "updatedAt": "2025-10-27T09:32:51.262Z"
+  },
+  {
+    "title": "Helluva Town",
+    "category": "Gioco di Ruolo",
+    "price": 34.99,
+    "realease_year": 2025,
+    "id": 9,
+    "createdAt": "2025-10-27T09:33:27.377Z",
+    "updatedAt": "2025-10-27T09:33:27.377Z"
+  },
+  {
+    "title": "Jumbot",
+    "category": "Living Card Game",
+    "price": 44.99,
+    "realease_year": 2040,
+    "id": 10,
+    "createdAt": "2025-10-27T09:34:31.947Z",
+    "updatedAt": "2025-10-27T09:34:31.947Z"
+  }
+]
