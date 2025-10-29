@@ -3,12 +3,18 @@ import { GlobalContext } from "../context/GlobalContext";
 import TableRow from "../components/TableRow";
 
 
+
 function BoardgameList() {
-  const { boardgames, loading, error } = useContext(GlobalContext);
+  const { boardgames, loading, error, search, debounceSearch } = useContext(GlobalContext);
+
+  const filteredGames = boardgames.filter(
+    g => g.title.toLowerCase().includes(search.toLowerCase())
+  );
+
 
   useEffect(() => {
     console.log("Boardgames dal context:", boardgames);
-    console.log("Primo gioco:", boardgames[0]); 
+    console.log("Primo gioco:", boardgames[0]);
   }, [boardgames, loading, error]);
 
   //gestione del loading
@@ -60,7 +66,7 @@ function BoardgameList() {
           </tr>
         </thead>
         <tbody>
-          {boardgames.map((boardgame) => (
+          {filteredGames.map((boardgame) => (
             <TableRow key={boardgame.id ?? boardgame._id} boardgame={boardgame} />
           ))}
         </tbody>

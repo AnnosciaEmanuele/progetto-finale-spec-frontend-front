@@ -4,6 +4,8 @@ import { BrowserRouter, Route, Routes } from "react-router-dom"
 import Navbar from "./components/Navbar"
 import BoardgameList from "./pages/BoardgameList"
 import Preferiti from "./pages/Preferiti"
+import BoardgameDeatail from "./pages/BoardgameDetail"
+import Confronto from "./pages/Confronto"
 
 function App() {
 
@@ -16,6 +18,8 @@ function App() {
           <Routes>
             <Route path = "/" element = {<BoardgameList />} />
             <Route path = "/preferiti" element = {<Preferiti />} />
+            <Route path = "/boardgame/:id" element ={<BoardgameDeatail />} />
+            <Route path = "/confronto" element = {<Confronto />} />
           </Routes>
         </BrowserRouter>
       </GlobalProvider>

@@ -1,11 +1,10 @@
 import { NavLink } from "react-router-dom";
 import React from "react";
 import { useState } from "react";
+import { GlobalContext } from "../context/GlobalContext";
 
 function Navbar() {
-    // const [search, setSearch] = useState("");
-    // const [debounceSearch, setDebounceSearch] = useState("");
-
+    const { search, setSearch } = useContext(GlobalContext)
 
     return (
         <nav className="navbar navbar-expand-lg bg-body-tertiary">
@@ -28,8 +27,10 @@ function Navbar() {
                         </li>
                     </ul>
                     <form className="d-flex" role="search">
-                        <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-                        <button className="btn btn-outline-success" type="submit">Cerca qui il tuo gioco</button>
+                        <input className="form-control me-2" type="search" placeholder="Cerca qui..." aria-label="Search" />
+                        <button className="btn btn-outline-success" type="submit">
+                            <i className = "fa fa-search"></i>
+                        </button>
                     </form>
                 </div>
             </div>

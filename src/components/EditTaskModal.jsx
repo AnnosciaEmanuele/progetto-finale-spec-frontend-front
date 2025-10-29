@@ -1,11 +1,9 @@
 import { useState, useRef, useEffect } from "react"
-import HoldButton from "./HoldButton"
-import style from "./EditTaskModal.module.css"
 import ReactDOM from "react-dom"
 import Modal from "./Modal"
 
 
-function EditTaskModal({ show, onClose, task, onSave }) {
+function EditTaskModal({ show, onClose, boardgame, onSave }) {
     const [title, setTitle] = useState(boardgame.title);
     const [category, setCategory] = useState(boardgame.category);
 
@@ -50,9 +48,9 @@ function EditTaskModal({ show, onClose, task, onSave }) {
                     </div>
 
                     <div>
-                        <label>CAtegoria</label>
+                        <label>Categoria</label>
                         <textarea
-                            value={description}
+                            value={category}
                             onChange={(e) => setCategory(e.target.value)}
                         />
                     </div>
