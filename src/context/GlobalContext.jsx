@@ -10,6 +10,8 @@ function GlobalProvider({ children }) {
     const [search, setSearch] = useState("");
     const [debounceSearch, setDebounceSearch] = useState("");   
 
+
+    //ricerca con debounce
     useEffect(() => {
         const timeout = setTimeout(()=>{
             setDebounceSearch(search);
@@ -17,6 +19,8 @@ function GlobalProvider({ children }) {
         return () => clearTimeout(timeout)
     }, [search]);
 
+
+    //global context anche per la ricerca per averla a disposizione quando serve
     return (
         <GlobalContext.Provider value={
             { ...boardgameHook,

@@ -20,13 +20,17 @@ function boardgamesReducer(state, action) {
         case "REMOVE_BOARDGAME":
             return {
                 ...state,
-                boardgames: state.boardgames.filter((boardgame) => boardgame.id !== action.payload)
+                boardgames: state.boardgames.filter(
+                    (boardgame) => (boardgame.id ?? boardgame._id) !== action.payload
+                )
             };
         case "UPDATE_BOARDGAME":
             return {
                 ...state,
-                boardgames: state.boardgames.map((boardgame) => 
-                    boardgame.id === action.payload.id ? action.payload : boardgame
+                boardgames: state.boardgames.map((boardgame) =>
+                    (boardgame.id ?? boardgame._id) === (action.payload.id ?? action.payload._id)
+                        ? action.payload
+                        : boardgame
                 )
             };
         default:
@@ -38,11 +42,10 @@ function useBoardgame() {
     const [state, dispatch] = useReducer(boardgamesReducer, initialState);
 
     useEffect(() => {
-        axios.get(BASE_URL)
-            .then(async (res) => {
-                const boardgameList = res.data;
-                
-                dispatch({ type: "FETCH_SUCCESS", payload: boardgameList });
+        axios
+            .get(BASE_URL)
+            .then((res) => {
+                dispatch({ type: "FETCH_SUCCESS", payload: res.data });
             })
             .catch((err) => {
                 dispatch({ type: "FETCH_ERROR", payload: err });
@@ -51,13 +54,17 @@ function useBoardgame() {
 
     async function addBoardgame(boardgame) {
         try {
-            const res = await axios.post(BASE_URL, boardgame);
+            const cleanData = {
+                ...boardgame,
+                release_year: boardgame.release_year ? Number(boardgame.release_year) : undefined,
+                price: boardgame.price ? Number(boardgame.price) : undefined
+            };
+
+            const res = await axios.post(BASE_URL, cleanData);
             dispatch({ type: "ADD_BOARDGAME", payload: res.data });
         } catch (err) {
-            console.error("Errore nell'aggiunta:", err);
-            throw err.response?.data?.message 
-                ? new Error(err.response.data.message) 
-                : err;
+            console.error("Errore nell'aggiunta:", err.response?.data);
+            throw err;
         }
     }
 
@@ -67,23 +74,21 @@ function useBoardgame() {
             dispatch({ type: "REMOVE_BOARDGAME", payload: boardgameId });
         } catch (err) {
             console.error("Errore nella rimozione:", err);
-            throw err.response?.data?.message 
-                ? new Error(err.response.data.message) 
+            throw err.response?.data?.message
+                ? new Error(err.response.data.message)
                 : err;
         }
     }
 
     async function updateBoardgame(updatedBoardgame) {
         try {
-            const res = await axios.put(
-                `${BASE_URL}/${updatedBoardgame.id}`, 
-                updatedBoardgame
-            );
+            const boardgameId = updatedBoardgame.id ?? updatedBoardgame._id;
+            const res = await axios.put(`${BASE_URL}/${boardgameId}`, updatedBoardgame);
             dispatch({ type: "UPDATE_BOARDGAME", payload: res.data });
         } catch (err) {
             console.error("Errore nella modifica:", err);
-            throw err.response?.data?.message 
-                ? new Error(err.response.data.message) 
+            throw err.response?.data?.message
+                ? new Error(err.response.data.message)
                 : err;
         }
     }
