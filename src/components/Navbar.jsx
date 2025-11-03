@@ -8,7 +8,7 @@ function Navbar() {
 
     const navigate = useNavigate();
 
-    function handleSubmit(e){
+    function handleSubmit(e) {
         e.preventDefault();
 
         navigate("/");
@@ -33,14 +33,20 @@ function Navbar() {
                                 Preferiti ❤️️
                             </NavLink>
                         </li>
+                        <li className="nav-item">
+                            <NavLink to="/confronto" className="nav-link">
+                                Confronta 🆚
+                            </NavLink>
+                        </li>
                     </ul>
-                    <form className="d-flex" role="search" onSubmit = {handleSubmit}>
-                        <input className="form-control me-2" 
-                        type="search" 
-                        placeholder="Cerca qui..." 
-                        aria-label="Search" 
-                        value={search}
-                        onChange = {(e) => setSearch(e.target.value)}/>
+
+                    <form className="d-flex" role="search" onSubmit={handleSubmit}>
+                        <input className="form-control me-2"
+                            type="search"
+                            placeholder="Cerca qui..."
+                            aria-label="Search"
+                            value={search}
+                            onChange={(e) => setSearch(e.target.value)} />
                     </form>
                 </div>
             </div>

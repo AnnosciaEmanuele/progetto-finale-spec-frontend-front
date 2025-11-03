@@ -12,8 +12,20 @@ function BoardgameDetails() {
         showModal,
         closeModal,
         selectedGame,
-        updateBoardgame } = useContext(GlobalContext);
+        updateBoardgame,
+        toggleFavorite,
+        favorites,
+        addToCompare
+
+    } = useContext(GlobalContext);
     const navigate = useNavigate();
+
+     // ricerca il gioco per id
+    const boardgame = boardgames.find(
+        (bg) => String(bg.id ?? bg._id) === id
+    );
+
+    const isFav = favorites.some(f => (f.id ?? f._id) === (boardgame.id ?? boardgame._id));
 
     // Gestione del loading
     if (loading) {
@@ -41,10 +53,7 @@ function BoardgameDetails() {
         );
     }
 
-    // ricerca il gioco per id
-    const boardgame = boardgames.find(
-        (bg) => String(bg.id ?? bg._id) === id
-    );
+   
 
     // Se il gioco non esiste
     if (!boardgame) {
@@ -99,6 +108,19 @@ function BoardgameDetails() {
                     </div>
                 </div>
                 <div className="card-footer">
+                    <button
+                        className={`btn me-2 ${isFav ? "btn-danger" : "btn-outline-danger"}`}
+                        onClick={() => toggleFavorite(boardgame)}
+                    >
+                        {isFav ? "❤️ Rimuovi dai preferiti" : "🤍 Aggiungi ai preferiti"}
+                    </button>
+
+                    <button
+                        className="btn btn-outline-primary me-2"
+                        onClick={() => addToCompare(boardgame)}
+                    >
+                        🆚 Confronta
+                    </button>
                     <button
                         className="btn btn-secondary"
                         onClick={() => navigate("/")}
