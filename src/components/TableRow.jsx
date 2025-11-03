@@ -1,8 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom"
 import HoldButton from "./HoldButton";
+import { GlobalContext } from "../context/GlobalContext";
+import { useContext } from "react";
 
 function TableRow({ boardgame, onEdit, onDelete }) {
+  const { favorites, toggleFavorite, addToCompare } = useContext(GlobalContext);
+
+  const isFav = favorites.some(f => (f.id ?? f._id) === (boardgame.id ?? boardgame._id));
 
   return (
     <tr>
@@ -12,21 +17,32 @@ function TableRow({ boardgame, onEdit, onDelete }) {
         </Link>
       </td>
       <td >{boardgame.category}</td>
+
       <td className="d-flex gap-2 justify-content-end">
+
+        {/* Bottone preferiti */}
         <button
-          onClick={() => onEdit(boardgame)}
-          className="btn btn-light "
+          className={`btn ${isFav ? "btn-warning" : "btn-outline-warning"}`}
+          onClick={() => toggleFavorite(boardgame)}
         >
-          <i className="fa fa-pencil"></i>
+          {isFav ? "❤️" : "🤍"}
+        </button>
+
+        {/* Confronta */}
+        <button
+          className="btn btn-outline-secondary"
+          onClick={() => addToCompare(boardgame)}
+        >
+          🆚
         </button>
 
         <HoldButton
           label={<i className="fa fa-trash"></i>}
-          holdTime={2000}
+          holdTime={1500}
           onHoldComplete={() => onDelete(boardgame)}
         />
       </td>
-    </tr>
+    </tr >
   );
 }
 
