@@ -5,22 +5,25 @@ import EditModal from "../components/EditModal";
 
 function BoardgameList() {
   const { 
-    boardgames, 
+     boardgames, 
     loading, 
     error, 
-    search, 
     debounceSearch,
     addBoardgame,
+    updateBoardgame,
     removeBoardgame,
-    updateBoardgame
+    showModal,
+    selectedGame,
+    isNew,
+    openEditModal,
+    openAddModal,
+    closeModal
   } = useContext(GlobalContext);
 
   const [sortBy, setSortBy] = useState("title");
   const [sortOrder, setSortOrder] = useState(1);
-  const [showModal, setShowModal] = useState(false);
-  const [selectedGame, setSelectedGame] = useState(null);
-  const [isNew, setIsNew] = useState(false);
 
+  //-------funzioni di ricerca-------
   function handleSort(column) {
     if (sortBy === column) {
       setSortOrder((prev) => prev * -1);
@@ -58,6 +61,7 @@ function BoardgameList() {
     setShowModal(true);
   }
 
+  //funzione di aggiunta gioco
   function handleAdd() {
     setSelectedGame({ 
       title: "", 
@@ -69,11 +73,13 @@ function BoardgameList() {
     setShowModal(true);
   }
 
+  //chiusura del modale
   function handleClose() {
     setShowModal(false);
     setSelectedGame(null);
   }
 
+  //cancellazione gioco
   async function handleDelete(game) {
 
     try {
@@ -83,6 +89,7 @@ function BoardgameList() {
     }
   }
 
+  //salvataggio del gioco
   async function handleSave(game) {
     // Validazione
     if (!game.title || game.title.trim().length < 2) {
@@ -112,6 +119,7 @@ function BoardgameList() {
     }
   }
 
+  //gestione caricamenti
   if (loading) {
     return (
       <div className="container mt-5">
@@ -184,7 +192,6 @@ function BoardgameList() {
               <TableRow
                 key={boardgame.id ?? boardgame._id}
                 boardgame={boardgame}
-                onEdit={handleEdit}
                 onDelete={handleDelete}
               />
             ))}

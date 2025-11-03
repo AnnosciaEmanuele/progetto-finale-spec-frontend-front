@@ -18,7 +18,7 @@ function App() {
           <Routes>
             <Route path = "/" element = {<BoardgameList />} />
             <Route path = "/preferiti" element = {<Preferiti />} />
-            <Route path = "/boardgame/:id" element ={<BoardgameDeatail />} />
+            <Route path = "/boardgames/:id" element ={<BoardgameDeatail />} />
             <Route path = "/confronto" element = {<Confronto />} />
           </Routes>
         </BrowserRouter>

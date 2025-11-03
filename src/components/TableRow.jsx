@@ -7,7 +7,7 @@ function TableRow({ boardgame, onEdit, onDelete }) {
   return (
     <tr>
       <td>
-        <Link to={`/boardgames/${boardgame.id ?? boardgame._id}`}>
+        <Link to={`/boardgames/${boardgame.id}`}>
           {boardgame.title}
         </Link>
       </td>

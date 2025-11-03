@@ -1,92 +1,92 @@
 [
   {
-    "title": "Cryptid",
-    "category": "Strategico",
-    "price": 59.99,
-    "realease_year": 2013,
-    "id": 1,
-    "createdAt": "2025-10-27T09:21:30.136Z",
-    "updatedAt": "2025-10-27T09:25:41.137Z"
-  },
-  {
     "title": "Cyberflesh",
-    "category": "RogueLike",
-    "price": 79.99,
-    "realease_year": 2024,
+    "category": "Strategy",
+    "release_year": 2024,
+    "price": 80,
+    "id": 1,
+    "createdAt": "2025-10-31T09:38:49.719Z",
+    "updatedAt": "2025-10-31T09:42:59.975Z"
+  },
+  {
+    "title": "Ticket to Ride",
+    "category": "Strategy",
+    "release_year": 2004,
+    "price": 32,
     "id": 2,
-    "createdAt": "2025-10-27T09:29:08.985Z",
-    "updatedAt": "2025-10-27T09:29:08.985Z"
+    "createdAt": "2025-10-31T09:39:18.947Z",
+    "updatedAt": "2025-10-31T09:39:18.947Z"
   },
   {
-    "title": "King of Tokyo",
-    "category": "Building Game",
-    "price": 69.99,
-    "realease_year": 2019,
+    "title": "Carcassonne",
+    "category": "Tile-Placement",
+    "release_year": 2000,
+    "price": 28,
     "id": 3,
-    "createdAt": "2025-10-27T09:29:55.317Z",
-    "updatedAt": "2025-10-27T09:29:55.317Z"
+    "createdAt": "2025-10-31T09:39:35.064Z",
+    "updatedAt": "2025-10-31T09:39:35.064Z"
   },
   {
-    "title": "Horizon Zero Dawn The Board Game",
-    "category": "PvPvE Building Game",
-    "price": 149.99,
-    "realease_year": 2021,
+    "title": "Pandemic",
+    "category": "Cooperative",
+    "release_year": 2008,
+    "price": 36,
     "id": 4,
-    "createdAt": "2025-10-27T09:30:51.172Z",
-    "updatedAt": "2025-10-27T09:30:51.172Z"
+    "createdAt": "2025-10-31T09:39:50.514Z",
+    "updatedAt": "2025-10-31T09:39:50.514Z"
   },
   {
-    "title": "Pathfinder",
-    "category": "RPG Game",
-    "price": 79.99,
-    "realease_year": 2007,
+    "title": "7 Wonders",
+    "category": "Card-Draft",
+    "release_year": 2010,
+    "price": 40,
     "id": 5,
-    "createdAt": "2025-10-27T09:31:27.138Z",
-    "updatedAt": "2025-10-27T09:31:27.138Z"
+    "createdAt": "2025-10-31T09:39:59.808Z",
+    "updatedAt": "2025-11-01T14:58:33.466Z"
   },
   {
-    "title": "Magic the Gathering",
-    "category": "Trading Card Game",
-    "price": 59.99,
-    "realease_year": 1993,
+    "title": "Dixit",
+    "category": "Party",
+    "release_year": 2008,
+    "price": 25,
     "id": 6,
-    "createdAt": "2025-10-27T09:32:13.212Z",
-    "updatedAt": "2025-10-27T09:32:13.212Z"
+    "createdAt": "2025-10-31T09:40:09.766Z",
+    "updatedAt": "2025-10-31T09:40:09.766Z"
   },
   {
-    "title": "Scacchi",
-    "category": "Strategico",
-    "price": 19.99,
-    "realease_year": 1000,
+    "title": "Azul",
+    "category": "Abstract",
+    "release_year": 2017,
+    "price": 30,
     "id": 7,
-    "createdAt": "2025-10-27T09:32:44.850Z",
-    "updatedAt": "2025-10-27T09:32:44.850Z"
+    "createdAt": "2025-10-31T09:40:17.232Z",
+    "updatedAt": "2025-10-31T09:40:17.232Z"
   },
   {
-    "title": "Dama",
-    "category": "Strategico",
-    "price": 19.99,
-    "realease_year": 1000,
+    "title": "Splendor",
+    "category": "Engine-Building",
+    "release_year": 2014,
+    "price": 29,
     "id": 8,
-    "createdAt": "2025-10-27T09:32:51.262Z",
-    "updatedAt": "2025-10-27T09:32:51.262Z"
+    "createdAt": "2025-10-31T09:40:26.349Z",
+    "updatedAt": "2025-10-31T09:40:26.349Z"
   },
   {
-    "title": "Helluva Town",
-    "category": "Gioco di Ruolo",
-    "price": 34.99,
-    "realease_year": 2025,
+    "title": "Root",
+    "category": "Wargame",
+    "release_year": 2018,
+    "price": 55,
     "id": 9,
-    "createdAt": "2025-10-27T09:33:27.377Z",
-    "updatedAt": "2025-10-27T09:33:27.377Z"
+    "createdAt": "2025-10-31T09:40:37.637Z",
+    "updatedAt": "2025-10-31T09:40:37.637Z"
   },
   {
-    "title": "Jumbot",
-    "category": "Living Card Game",
-    "price": 44.99,
-    "realease_year": 2040,
+    "title": "Patchwork",
+    "category": "Abstract",
+    "release_year": 2014,
+    "price": 20,
     "id": 10,
-    "createdAt": "2025-10-27T09:34:31.947Z",
-    "updatedAt": "2025-10-27T09:34:31.947Z"
+    "createdAt": "2025-10-31T09:40:46.291Z",
+    "updatedAt": "2025-10-31T09:40:46.291Z"
   }
 ]

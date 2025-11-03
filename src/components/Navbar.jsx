@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import React from "react";
 import { useState, useContext } from "react";
 import { GlobalContext } from "../context/GlobalContext";
@@ -6,8 +6,12 @@ import { GlobalContext } from "../context/GlobalContext";
 function Navbar() {
     const { search, setSearch } = useContext(GlobalContext)
 
-    function handleSubmit(){
+    const navigate = useNavigate();
+
+    function handleSubmit(e){
         e.preventDefault();
+
+        navigate("/");
     }
 
     return (
@@ -30,15 +34,13 @@ function Navbar() {
                             </NavLink>
                         </li>
                     </ul>
-                    <form className="d-flex" role="search">
+                    <form className="d-flex" role="search" onSubmit = {handleSubmit}>
                         <input className="form-control me-2" 
                         type="search" 
                         placeholder="Cerca qui..." 
                         aria-label="Search" 
+                        value={search}
                         onChange = {(e) => setSearch(e.target.value)}/>
-                        {/* <button className="btn btn-outline-success" type="submit">
-                            <i className = "fa fa-search"></i>
-                        </button> */}
                     </form>
                 </div>
             </div>
