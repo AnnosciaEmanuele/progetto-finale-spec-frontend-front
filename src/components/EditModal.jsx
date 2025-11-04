@@ -34,8 +34,12 @@ function EditModal({ show, onClose, boardgame, onSave, isNew = false }) {
       updatedBoardgame.id = boardgame.id ?? boardgame._id;
     }
 
+    //chiusura del modale
+    if (onClose) onClose();
+
     console.log("Dati dal form prima di inviare:", updatedBoardgame);
     onSave(updatedBoardgame);
+
   }
 
   return (

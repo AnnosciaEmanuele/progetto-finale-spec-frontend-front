@@ -46,6 +46,7 @@ function useBoardgame() {
             .get(BASE_URL)
             .then((res) => {
                 dispatch({ type: "FETCH_SUCCESS", payload: res.data });
+                
             })
             .catch((err) => {
                 dispatch({ type: "FETCH_ERROR", payload: err });
@@ -54,17 +55,15 @@ function useBoardgame() {
 
     async function addBoardgame(boardgame) {
         try {
-            const cleanData = {
-                ...boardgame,
-                release_year: boardgame.release_year ? Number(boardgame.release_year) : undefined,
-                price: boardgame.price ? Number(boardgame.price) : undefined
-            };
-
-            const res = await axios.post(BASE_URL, cleanData);
+            console.log("Dati inviati al backend:", boardgame);
+            const res = await axios.post(BASE_URL, boardgame);
             dispatch({ type: "ADD_BOARDGAME", payload: res.data });
         } catch (err) {
-            console.error("Errore nell'aggiunta:", err.response?.data);
-            throw err;
+            console.error("Errore nell'aggiunta:", err);
+            console.error("Risposta dal backend:", err.response?.data);
+            throw err.response?.data?.message
+                ? new Error(err.response.data.message)
+                : err;
         }
     }
 

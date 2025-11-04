@@ -8,18 +8,20 @@ function BoardgameList() {
     boardgames,
     loading,
     error,
-    search,
     debounceSearch,
     addBoardgame,
     updateBoardgame,
     removeBoardgame,
+    showModal,
+    selectedGame,
+    isNew,
+    openEditModal,
+    openAddModal,
+    closeModal,
   } = useContext(GlobalContext);
 
- const [sortBy, setSortBy] = useState("title");
+  const [sortBy, setSortBy] = useState("title");
   const [sortOrder, setSortOrder] = useState(1);
-  const [showModal, setShowModal] = useState(false);
-  const [selectedGame, setSelectedGame] = useState(null);
-  const [isNew, setIsNew] = useState(false);
 
   //-------funzioni di ricerca-------
   function handleSort(column) {
@@ -54,27 +56,15 @@ function BoardgameList() {
   }, [boardgames]);
 
   function handleEdit(game) {
-    setSelectedGame(game);
-    setIsNew(false);
-    setShowModal(true);
+    openEditModal(game);       // ✅ Usa funzione dal Context
   }
 
-  //funzione di aggiunta gioco
   function handleAdd() {
-    setSelectedGame({
-      title: "",
-      category: "",
-      release_year: "",
-      price: ""
-    });
-    setIsNew(true);
-    setShowModal(true);
+    openAddModal();            // ✅ Usa funzione dal Context
   }
 
-  //chiusura del modale
   function handleClose() {
-    setShowModal(false);
-    setSelectedGame(null);
+    closeModal();              // ✅ Usa funzione dal Context
   }
 
   //cancellazione gioco
@@ -109,8 +99,8 @@ function BoardgameList() {
         await updateBoardgame(game);
       }
 
-      setShowModal(false);
-      setSelectedGame(null);
+     closeModal();
+
     } catch (err) {
       console.error("Errore completo:", err);
       alert("Errore durante il salvataggio: " + (err.message || "Errore sconosciuto"));
