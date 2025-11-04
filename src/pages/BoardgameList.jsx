@@ -4,24 +4,22 @@ import TableRow from "../components/TableRow";
 import EditModal from "../components/EditModal";
 
 function BoardgameList() {
-  const { 
-     boardgames, 
-    loading, 
-    error, 
+  const {
+    boardgames,
+    loading,
+    error,
+    search,
     debounceSearch,
     addBoardgame,
     updateBoardgame,
     removeBoardgame,
-    showModal,
-    selectedGame,
-    isNew,
-    openEditModal,
-    openAddModal,
-    closeModal
   } = useContext(GlobalContext);
 
-  const [sortBy, setSortBy] = useState("title");
+ const [sortBy, setSortBy] = useState("title");
   const [sortOrder, setSortOrder] = useState(1);
+  const [showModal, setShowModal] = useState(false);
+  const [selectedGame, setSelectedGame] = useState(null);
+  const [isNew, setIsNew] = useState(false);
 
   //-------funzioni di ricerca-------
   function handleSort(column) {
@@ -63,11 +61,11 @@ function BoardgameList() {
 
   //funzione di aggiunta gioco
   function handleAdd() {
-    setSelectedGame({ 
-      title: "", 
-      category: "", 
-      release_year: "", 
-      price: "" 
+    setSelectedGame({
+      title: "",
+      category: "",
+      release_year: "",
+      price: ""
     });
     setIsNew(true);
     setShowModal(true);
@@ -104,13 +102,13 @@ function BoardgameList() {
 
     try {
       console.log("Dati da salvare:", game);
-      
+
       if (isNew) {
         await addBoardgame(game);
       } else {
         await updateBoardgame(game);
       }
-      
+
       setShowModal(false);
       setSelectedGame(null);
     } catch (err) {
