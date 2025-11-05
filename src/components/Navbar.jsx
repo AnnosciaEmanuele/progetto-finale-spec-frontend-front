@@ -4,7 +4,7 @@ import { useState, useContext } from "react";
 import { GlobalContext } from "../context/GlobalContext";
 
 function Navbar() {
-    const { search, setSearch } = useContext(GlobalContext)
+    const { search, setSearch, selectedCategory, boardgames, setSelectedCategory } = useContext(GlobalContext)
 
     const navigate = useNavigate();
 
@@ -47,6 +47,18 @@ function Navbar() {
                             aria-label="Search"
                             value={search}
                             onChange={(e) => setSearch(e.target.value)} />
+
+                        <select
+                            className="form-select"
+                            style={{ width: "auto" }}
+                            value={selectedCategory}
+                            onChange={(e) => setSelectedCategory(e.target.value)}
+                        >
+                            <option value="">Tutte</option>
+                            {[...new Set(boardgames.map(bg => bg.category))].map(cat => (
+                                <option key={cat} value={cat}>{cat}</option>
+                            ))}
+                        </select>
                     </form>
                 </div>
             </div>

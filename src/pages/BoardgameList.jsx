@@ -18,6 +18,8 @@ function BoardgameList() {
     openEditModal,
     openAddModal,
     closeModal,
+    selectedCategory,
+    setSelectedCategory,
   } = useContext(GlobalContext);
 
   const [sortBy, setSortBy] = useState("title");
@@ -34,37 +36,45 @@ function BoardgameList() {
   }
 
   const filteredAndSorted = useMemo(() => {
-    const filteredGames = boardgames.filter(
-      g => g?.title?.toLowerCase().includes(debounceSearch.toLowerCase())
-    );
+    // console.log("Filtro - Categoria selezionata:", selectedCategory);
+    // console.log("Filtro - Totale boardgames:", boardgames.length);
+
+    let filteredGames = boardgames.filter(g => {
+      const matchesSearch = g?.title?.toLowerCase().includes(debounceSearch.toLowerCase());
+      const matchesCategory = !selectedCategory || g?.category === selectedCategory;
+
+      console.log(`Game: ${g.title} | Category: ${g.category} | Selected: ${selectedCategory} | Matches: ${matchesCategory}`);
+
+      return matchesSearch && matchesCategory;
+    });
+
+    console.log("✅ Giochi dopo filtro:", filteredGames.length);
 
     return [...filteredGames].sort((a, b) => {
       let result = 0;
-
       if (sortBy === "title") {
         result = a.title.localeCompare(b.title);
       } else if (sortBy === "category") {
         result = a.category.localeCompare(b.category);
       }
-
       return result * sortOrder;
     });
-  }, [boardgames, sortBy, sortOrder, debounceSearch]);
+  }, [boardgames, sortBy, sortOrder, debounceSearch, selectedCategory]);
 
   useEffect(() => {
     console.log("Boardgames dal context:", boardgames);
   }, [boardgames]);
 
   function handleEdit(game) {
-    openEditModal(game);       // ✅ Usa funzione dal Context
+    openEditModal(game);
   }
 
   function handleAdd() {
-    openAddModal();            // ✅ Usa funzione dal Context
+    openAddModal();
   }
 
   function handleClose() {
-    closeModal();              // ✅ Usa funzione dal Context
+    closeModal();
   }
 
   //cancellazione gioco
@@ -99,7 +109,7 @@ function BoardgameList() {
         await updateBoardgame(game);
       }
 
-     closeModal();
+      closeModal();
 
     } catch (err) {
       console.error("Errore completo:", err);
@@ -156,9 +166,27 @@ function BoardgameList() {
         </button>
       </div>
 
-      {filteredAndSorted.length === 0 && debounceSearch && (
+      <div className="row mb-4">
+        <div className="col-md-6 offset-md-3">
+          <label className="form-label fw-bold">Filtra per categoria:</label>
+          <select
+            className="form-select"
+            value={selectedCategory}
+            onChange={(e) => setSelectedCategory(e.target.value)}
+          >
+            <option value="">Tutte le categorie</option>
+            {[...new Set(boardgames.map(bg => bg.category))].map(cat => (
+              <option key={cat} value={cat}>{cat}</option>
+            ))}
+          </select>
+        </div>
+      </div>
+
+      {filteredAndSorted.length === 0 && (debounceSearch || selectedCategory) && (
         <div className="alert alert-info text-center mt-4">
-          Nessun gioco trovato con la ricerca: <strong>{debounceSearch}</strong>
+          Nessun gioco trovato
+          {debounceSearch && <> con la ricerca: <strong>{debounceSearch}</strong></>}
+          {selectedCategory && <> nella categoria: <strong>{selectedCategory}</strong></>}
         </div>
       )}
 

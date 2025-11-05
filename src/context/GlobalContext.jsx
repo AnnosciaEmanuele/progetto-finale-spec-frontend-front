@@ -9,6 +9,7 @@ function GlobalProvider({ children }) {
     const boardgameHook = useBoardgame();
     const [search, setSearch] = useState("");
     const [debounceSearch, setDebounceSearch] = useState("");
+    const [selectedCategory, setSelectedCategory] = useState("");
 
     //stati per il modale di modifica
     const [showModal, setShowModal] = useState(false);
@@ -98,7 +99,9 @@ function GlobalProvider({ children }) {
             toggleFavorite,
             compareList,
             addToCompare,
-            removeFromCompare
+            removeFromCompare,
+            selectedCategory,
+            setSelectedCategory,
         }}>
             {children}
         </GlobalContext.Provider>
