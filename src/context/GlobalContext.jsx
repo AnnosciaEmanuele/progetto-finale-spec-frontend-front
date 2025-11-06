@@ -7,6 +7,8 @@ const GlobalContext = createContext();
 
 function GlobalProvider({ children }) {
     const boardgameHook = useBoardgame();
+
+    //state per la ricerca
     const [search, setSearch] = useState("");
     const [debounceSearch, setDebounceSearch] = useState("");
     const [selectedCategory, setSelectedCategory] = useState("");
@@ -62,13 +64,10 @@ function GlobalProvider({ children }) {
         }
     }
 
+    //------COMPARATORE----
     // Aggiungi al comparatore
     function addToCompare(game) {
         const id = game.id ?? game._id;
-
-        // massimo 2
-
-        // evita duplicati
         if (!compareList.some(item => (item.id ?? item._id) === id)) {
             setCompareList([...compareList, game]);
         }
