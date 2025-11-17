@@ -16,7 +16,7 @@ function boardgamesReducer(state, action) {
         case "FETCH_ERROR":
             return { ...state, boardgames: [], loading: false, error: action.payload };
         case "ADD_BOARDGAME":
-            return { ...state, boardgames: [...state.boardgames, action.payload] };
+            return { ...state, boardgames: [...state.boardgames, action.payload.boardgame]};
         case "REMOVE_BOARDGAME":
             return {
                 ...state,
@@ -42,16 +42,17 @@ function useBoardgame() {
     const [state, dispatch] = useReducer(boardgamesReducer, initialState);
 
     useEffect(() => {
-        axios
-            .get(BASE_URL)
-            .then((res) => {
-                dispatch({ type: "FETCH_SUCCESS", payload: res.data });
-                
-            })
-            .catch((err) => {
-                dispatch({ type: "FETCH_ERROR", payload: err });
-            });
+        loadBoardGames()
     }, []);
+
+    async function loadBoardGames() {
+        try {
+            const res = await axios.get(BASE_URL)
+            dispatch({ type: "FETCH_SUCCESS", payload: res.data })
+        } catch (error) {
+            dispatch({ type: "FETCH_ERROR", payload: error })
+        }
+    }
 
     async function addBoardgame(boardgame) {
         try {
@@ -96,6 +97,7 @@ function useBoardgame() {
         boardgames: state.boardgames,
         loading: state.loading,
         error: state.error,
+        loadBoardGames,
         addBoardgame,
         removeBoardgame,
         updateBoardgame

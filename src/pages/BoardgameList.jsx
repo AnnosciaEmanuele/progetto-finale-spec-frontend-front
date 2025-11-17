@@ -20,12 +20,13 @@ function BoardgameList() {
     closeModal,
     selectedCategory,
     setSelectedCategory,
+    loadBoardGames,
   } = useContext(GlobalContext);
 
   const [sortBy, setSortBy] = useState("title");
   const [sortOrder, setSortOrder] = useState(1);
 
-  //-------funzioni di ricerca-------
+  //-------funzioni di ordinamento-------
   function handleSort(column) {
     if (sortBy === column) {
       setSortOrder((prev) => prev * -1);
@@ -35,9 +36,8 @@ function BoardgameList() {
     }
   }
 
+  //filtrato ed ordinato
   const filteredAndSorted = useMemo(() => {
-    // console.log("Filtro - Categoria selezionata:", selectedCategory);
-    // console.log("Filtro - Totale boardgames:", boardgames.length);
 
     let filteredGames = boardgames.filter(g => {
       const matchesSearch = g?.title?.toLowerCase().includes(debounceSearch.toLowerCase());
@@ -47,8 +47,6 @@ function BoardgameList() {
 
       return matchesSearch && matchesCategory;
     });
-
-    console.log("✅ Giochi dopo filtro:", filteredGames.length);
 
     return [...filteredGames].sort((a, b) => {
       let result = 0;
@@ -65,6 +63,7 @@ function BoardgameList() {
     console.log("Boardgames dal context:", boardgames);
   }, [boardgames]);
 
+  //funzioni di modiffica
   function handleEdit(game) {
     openEditModal(game);
   }
@@ -105,6 +104,7 @@ function BoardgameList() {
 
       if (isNew) {
         await addBoardgame(game);
+        //await loadBoardGames()
       } else {
         await updateBoardgame(game);
       }
