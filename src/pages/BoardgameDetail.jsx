@@ -16,7 +16,6 @@ function BoardgameDetails() {
         toggleFavorite,
         favorites,
         addToCompare,
-        compareList
     } = useContext(GlobalContext);
     
     const navigate = useNavigate();

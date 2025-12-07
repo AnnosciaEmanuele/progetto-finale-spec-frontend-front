@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { GlobalContext } from "../context/GlobalContext";
 
 function Confronto() {
@@ -6,14 +6,54 @@ function Confronto() {
         compareList,
         removeFromCompare,
         boardgames,
-        addToCompare
+        addToCompare,
+        getSingleBoardgame,
     } = useContext(GlobalContext);
+
+    const [detailedGames, setDetailedGames] = useState([]);
+    const [loading, setLoading] = useState(false);
+
+    // ✅ Carica i dettagli completi di tutti i giochi nel confronto
+    useEffect(() => {
+        async function loadAllDetails() {
+            if (compareList.length === 0) {
+                setDetailedGames([]);
+                return;
+            }
+
+            try {
+                setLoading(true);
+
+                // Carica dettagli per ogni gioco
+                const details = await Promise.all(
+                    compareList.map(async (game) => {
+                        try {
+                            const fullData = await getSingleBoardgame(game.id ?? game._id);
+                            console.log("✅ Dettagli caricati per:", fullData.title);
+                            return fullData;
+                        } catch (err) {
+                            console.error(`❌ Errore caricamento ${game.title}:`, err);
+                            return game; // Fallback ai dati base
+                        }
+                    })
+                );
+
+                setDetailedGames(details);
+            } catch (err) {
+                console.error("❌ Errore generale:", err);
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        loadAllDetails();
+    }, [compareList, getSingleBoardgame]);
 
     return (
         <div className="container mt-5">
             <h2 className="mb-4">Confronta Giochi 🆚</h2>
 
-            {/* menu a tendina per aggiungere altri giochi */}
+            {/* Menu a tendina per aggiungere giochi */}
             {boardgames.length > 0 && (
                 <div className="mb-4">
                     <label className="form-label fw-bold">
@@ -28,10 +68,10 @@ function Confronto() {
                                 bg => (bg.id ?? bg._id).toString() === gameId
                             );
                             addToCompare(selected);
+                            e.target.value = ""; // Reset selezione
                         }}
                     >
                         <option value="">Seleziona gioco...</option>
-
                         {boardgames
                             .filter(bg =>
                                 !compareList.some(c => (c.id ?? c._id) === (bg.id ?? bg._id))
@@ -45,46 +85,69 @@ function Confronto() {
                 </div>
             )}
 
+            {/* Alert lista vuota */}
             {compareList.length === 0 && (
                 <div className="alert alert-info">
-                    Nessun gioco selezionato. Aggiungine uno dalla lista 👇
+                    Nessun gioco selezionato. Aggiungine uno dalla lista o dal menu a tendina sopra 👆
                 </div>
             )}
 
-            <div className="table-responsive">
-                <table className="table table-bordered text-center">
-                    <thead className="table-secondary">
-                        <tr>
-                            <th>Caratteristica</th>
-                            {compareList.map(g => (
-                                <th key={g.id ?? g._id}>
-                                    {g.title}
-                                    <button
-                                        className="btn btn-sm btn-danger ms-2"
-                                        onClick={() => removeFromCompare(g)}
-                                    >
-                                        ✖
-                                    </button>
-                                </th>
-                            ))}
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Categoria</td>
-                            {compareList.map(g => <td key={g.title}>{g.category}</td>)}
-                        </tr>
-                        <tr>
-                            <td>Anno di Rilascio</td>
-                            {compareList.map(g => <td key={g.title}>{g.release_year}</td>)}
-                        </tr>
-                        <tr>
-                            <td>Prezzo</td>
-                            {compareList.map(g => <td key={g.title}>€ {g.price}</td>)}
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+            {/* Loading */}
+            {loading && (
+                <div className="text-center my-4">
+                    <div className="spinner-border" role="status">
+                        <span className="visually-hidden">Caricamento dettagli...</span>
+                    </div>
+                </div>
+            )}
+
+            {/* Tabella confronto */}
+            {detailedGames.length > 0 && !loading && (
+                <div className="table-responsive">
+                    <table className="table table-bordered text-center">
+                        <thead className="table-dark">
+                            <tr>
+                                <th>Caratteristica</th>
+                                {detailedGames.map(g => (
+                                    <th key={g.id ?? g._id}>
+                                        {g.title}
+                                        <button
+                                            className="btn btn-sm btn-danger ms-2"
+                                            onClick={() => removeFromCompare(g)}
+                                        >
+                                            ✖
+                                        </button>
+                                    </th>
+                                ))}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Categoria</strong></td>
+                                {detailedGames.map(g => (
+                                    <td key={`cat-${g.id}`}>
+                                        <span className="badge bg-secondary">{g.category}</span>
+                                    </td>
+                                ))}
+                            </tr>
+                            <tr>
+                                <td><strong>Anno di Rilascio</strong></td>
+                                {detailedGames.map(g => (
+                                    <td key={`year-${g.id}`}>{g.release_year || "N/D"}</td>
+                                ))}
+                            </tr>
+                            <tr>
+                                <td><strong>Prezzo</strong></td>
+                                {detailedGames.map(g => (
+                                    <td key={`price-${g.id}`}>
+                                        {g.price ? `€ ${g.price.toFixed(2)}` : "N/D"}
+                                    </td>
+                                ))}
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            )}
         </div>
     );
 }
