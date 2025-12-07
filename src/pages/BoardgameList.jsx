@@ -20,7 +20,7 @@ function BoardgameList() {
     closeModal,
     selectedCategory,
     setSelectedCategory,
-    loadBoardGames,
+    getBoardgamesList
   } = useContext(GlobalContext);
 
   const [sortBy, setSortBy] = useState("title");
@@ -43,8 +43,6 @@ function BoardgameList() {
       const matchesSearch = g?.title?.toLowerCase().includes(debounceSearch.toLowerCase());
       const matchesCategory = !selectedCategory || g?.category === selectedCategory;
 
-      console.log(`Game: ${g.title} | Category: ${g.category} | Selected: ${selectedCategory} | Matches: ${matchesCategory}`);
-
       return matchesSearch && matchesCategory;
     });
 
@@ -59,14 +57,8 @@ function BoardgameList() {
     });
   }, [boardgames, sortBy, sortOrder, debounceSearch, selectedCategory]);
 
-  useEffect(() => {
-    console.log("Boardgames dal context:", boardgames);
-  }, [boardgames]);
 
-  //funzioni di modiffica
-  function handleEdit(game) {
-    openEditModal(game);
-  }
+  //funzioni di modifica
 
   function handleAdd() {
     openAddModal();
@@ -100,17 +92,17 @@ function BoardgameList() {
     }
 
     try {
-      console.log("Dati da salvare:", game);
 
       if (isNew) {
         await addBoardgame(game);
-        //await loadBoardGames()
       } else {
         await updateBoardgame(game);
       }
 
-      closeModal();
+      //ricaricamento automatico della pagina
+      await getBoardgamesList();
 
+      closeModal();
     } catch (err) {
       console.error("Errore completo:", err);
       alert("Errore durante il salvataggio: " + (err.message || "Errore sconosciuto"));

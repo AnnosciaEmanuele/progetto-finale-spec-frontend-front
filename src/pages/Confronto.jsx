@@ -13,7 +13,7 @@ function Confronto() {
         <div className="container mt-5">
             <h2 className="mb-4">Confronta Giochi 🆚</h2>
 
-            {/* ✅ Menu a tendina per aggiungere altri giochi */}
+            {/* menu a tendina per aggiungere altri giochi */}
             {boardgames.length > 0 && (
                 <div className="mb-4">
                     <label className="form-label fw-bold">

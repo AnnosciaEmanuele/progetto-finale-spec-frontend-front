@@ -1,5 +1,3 @@
-import React from "react";
-import axios from "axios";
 import useBoardgame from "../assets/customhooks/useBoardgame";
 import { createContext, useState, useEffect } from "react";
 
@@ -18,9 +16,27 @@ function GlobalProvider({ children }) {
     const [selectedGame, setSelectedGame] = useState(null);
     const [isNew, setIsNew] = useState(false);
 
-    //aggiunta preferiti/confronto
-    const [favorites, setFavorites] = useState([]);
-    const [compareList, setCompareList] = useState([]);
+     // Persistenza local storage - Preferiti
+    const [favorites, setFavorites] = useState(() => {
+        const saved = localStorage.getItem("favorites");
+        return saved ? JSON.parse(saved) : [];
+    });
+
+    // Persistenza local storage - Confronto
+    const [compareList, setCompareList] = useState(() => {
+        const saved = localStorage.getItem("compareList");
+        return saved ? JSON.parse(saved) : [];
+    });
+
+      // Salva preferiti in localStorage quando cambiano
+    useEffect(() => {
+        localStorage.setItem("favorites", JSON.stringify(favorites));
+    }, [favorites]);
+
+    // Salva confronto in localStorage quando cambia
+    useEffect(() => {
+        localStorage.setItem("compareList", JSON.stringify(compareList));
+    }, [compareList]);
 
 
     //ricerca con debounce
@@ -54,6 +70,15 @@ function GlobalProvider({ children }) {
         setSelectedGame(null);
     }
 
+    async function handleSave(game) {
+    try {
+        await updateBoardgame(game);
+        closeModal();
+    } catch (err) {
+        alert("Errore durante il salvataggio: " + err.message);
+    }
+}
+
     // Toggle preferiti
     function toggleFavorite(game) {
         const id = game.id ?? game._id;
@@ -79,6 +104,16 @@ function GlobalProvider({ children }) {
         setCompareList(compareList.filter(item => (item.id ?? item._id) !== id));
     }
 
+    // // Toggle comparatore
+    // function toggleCompare(game) {
+    //     const id = game.id ?? game._id;
+    //     if (compared.some(c => (c.id ?? c._id) === id)) {
+    //         setCompared(compared.filter(c => (c.id ?? c._id) !== id));
+    //     } else {
+    //         setCompared([...compared, game]);
+    //     }
+    // }
+
     //global context anche per la ricerca per averla a disposizione quando serve
     return (
         <GlobalContext.Provider value={{
@@ -101,6 +136,7 @@ function GlobalProvider({ children }) {
             removeFromCompare,
             selectedCategory,
             setSelectedCategory,
+            handleSave
         }}>
             {children}
         </GlobalContext.Provider>

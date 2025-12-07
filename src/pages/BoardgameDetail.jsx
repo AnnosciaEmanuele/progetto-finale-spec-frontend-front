@@ -1,13 +1,13 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { GlobalContext } from "../context/GlobalContext";
 import EditModal from "../components/EditModal";
 
 function BoardgameDetails() {
     const { id } = useParams();
-    const { boardgames,
+    const {
+        getSingleBoardgame,
         loading,
-        error,
         openEditModal,
         showModal,
         closeModal,
@@ -15,20 +15,49 @@ function BoardgameDetails() {
         updateBoardgame,
         toggleFavorite,
         favorites,
-        addToCompare
-
+        addToCompare,
+        compareList
     } = useContext(GlobalContext);
+    
     const navigate = useNavigate();
+    const [boardgame, setBoardgame] = useState(null);
+    const [loadingDetail, setLoadingDetail] = useState(true);
 
-     // ricerca il gioco per id
-    const boardgame = boardgames.find(
-        (bg) => String(bg.id ?? bg._id) === id
-    );
+    //Carica i dettagli del singolo gioco
+    useEffect(() => {
+    async function loadDetail() {
+        try {
+            setLoadingDetail(true);
+            const data = await getSingleBoardgame(id);
+            setBoardgame(data);
 
-    const isFav = favorites.some(f => (f.id ?? f._id) === (boardgame.id ?? boardgame._id));
+        } catch (err) {
+            console.error("❌ Errore caricamento dettagli:", err);
+        } finally {
+            setLoadingDetail(false);
+        }
+    }
+    
+    if (id) {
+        loadDetail();
+    }
+}, [id, getSingleBoardgame]);
 
-    // Gestione del loading
-    if (loading) {
+    async function handleSave(game) {
+        try {
+            await updateBoardgame(game);
+            // Ricarica i dettagli aggiornati
+            const updated = await getSingleBoardgame(id);
+            setBoardgame(updated);
+            closeModal();
+        } catch (err) {
+            alert("Errore durante il salvataggio: " + err.message);
+        }
+    }
+
+    const isFav = boardgame ? favorites.some(f => (f.id ?? f._id) === (boardgame.id ?? boardgame._id)) : false;
+
+    if (loadingDetail || loading) {
         return (
             <div className="container mt-5">
                 <div className="text-center">
@@ -41,31 +70,12 @@ function BoardgameDetails() {
         );
     }
 
-    // Gestione errore
-    if (error) {
-        return (
-            <div className="container mt-5">
-                <div className="alert alert-danger" role="alert">
-                    <h4 className="alert-heading">Errore!</h4>
-                    <p>Si è verificato un errore: {error.message}</p>
-                </div>
-            </div>
-        );
-    }
-
-   
-
-    // Se il gioco non esiste
     if (!boardgame) {
         return (
             <div className="container mt-5">
                 <div className="alert alert-warning" role="alert">
                     <h4 className="alert-heading">Gioco non trovato</h4>
-                    <p>Il gioco che stai cercando non esiste o è stato eliminato.</p>
-                    <button
-                        className="btn btn-primary mt-3"
-                        onClick={() => navigate("/")}
-                    >
+                    <button className="btn btn-primary mt-3" onClick={() => navigate("/")}>
                         Torna alla lista
                     </button>
                 </div>
@@ -78,10 +88,7 @@ function BoardgameDetails() {
             <div className="card">
                 <div className="card-header bg-primary text-white d-flex justify-content-between align-items-center">
                     <h2 className="mb-0">{boardgame.title}</h2>
-                    <button
-                        onClick={() => openEditModal(boardgame)}
-                        className="btn btn-light"
-                    >
+                    <button onClick={() => openEditModal(boardgame)} className="btn btn-light">
                         <i className="fa fa-pencil"></i> Modifica
                     </button>
                 </div>
@@ -95,14 +102,14 @@ function BoardgameDetails() {
                         </div>
                         <div className="col-md-6">
                             <p className="mb-3">
-                                <strong>Anno di Rilascio:</strong> {boardgame.release_year}
+                                <strong>Anno di Rilascio:</strong> {boardgame.release_year || "N/D"}
                             </p>
                         </div>
                     </div>
                     <div className="row">
                         <div className="col-md-6">
                             <p className="mb-3">
-                                <strong>Prezzo:</strong> {`€ ${boardgame.price}`}
+                                <strong>Prezzo:</strong> {boardgame.price ? `€ ${boardgame.price}` : "N/D"}
                             </p>
                         </div>
                     </div>
@@ -114,26 +121,20 @@ function BoardgameDetails() {
                     >
                         {isFav ? "❤️ Rimuovi dai preferiti" : "🤍 Aggiungi ai preferiti"}
                     </button>
-
-                    <button
-                        className="btn btn-outline-primary me-2"
-                        onClick={() => addToCompare(boardgame)}
-                    >
+                    <button className="btn btn-outline-primary me-2" onClick={() => addToCompare(boardgame)}>
                         🆚 Confronta
                     </button>
-                    <button
-                        className="btn btn-secondary"
-                        onClick={() => navigate("/")}
-                    >
+                    <button className="btn btn-secondary" onClick={() => navigate("/")}>
                         ← Torna alla lista
                     </button>
                 </div>
             </div>
+            
             <EditModal
                 show={showModal}
                 onClose={closeModal}
                 boardgame={selectedGame}
-                onSave={updateBoardgame}
+                onSave={handleSave}
                 isNew={false}
             />
         </div>

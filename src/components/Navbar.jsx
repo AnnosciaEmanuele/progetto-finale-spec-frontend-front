@@ -1,61 +1,75 @@
-import { NavLink, useNavigate } from "react-router-dom";
-import React from "react";
-import { useState, useContext } from "react";
+import { NavLink, useNavigate, Link } from "react-router-dom";
+import React, { useContext } from "react";
 import { GlobalContext } from "../context/GlobalContext";
 
 function Navbar() {
-    const { search, setSearch, selectedCategory, boardgames, setSelectedCategory } = useContext(GlobalContext)
-
+    const { search, setSearch, selectedCategory, boardgames, setSelectedCategory } = useContext(GlobalContext);
     const navigate = useNavigate();
 
     function handleSubmit(e) {
         e.preventDefault();
-
         navigate("/");
     }
 
     return (
-        <nav className="navbar navbar-expand-lg bg-body-tertiary">
+        <nav className="navbar navbar-expand-lg navbar-light bg-light">
             <div className="container-fluid">
-                <a className="navbar-brand" href="/"><img src="../src/assets/react.svg" alt="" /></a>
-                <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                {/* Logo */}
+                <Link className="navbar-brand" to="/">
+                    🎲 Boardgames
+                </Link>
+                
+                {/* Burger Button */}
+                <button 
+                    className="navbar-toggler" 
+                    type="button" 
+                    data-bs-toggle="collapse" 
+                    data-bs-target="#navbarContent"
+                    aria-controls="navbarContent"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation"
+                >
                     <span className="navbar-toggler-icon"></span>
                 </button>
-                <div className="collapse navbar-collapse" id="navbarSupportedContent">
+                
+                {/* Collapsible content */}
+                <div className="collapse navbar-collapse" id="navbarContent">
+                    {/* Links */}
                     <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                         <li className="nav-item">
                             <NavLink to="/" className="nav-link">
-                                Lista dei Giochi da Tavolo
+                                📋 Lista
                             </NavLink>
                         </li>
                         <li className="nav-item">
                             <NavLink to="/preferiti" className="nav-link">
-                                Preferiti ❤️️
+                                ❤️ Preferiti
                             </NavLink>
                         </li>
                         <li className="nav-item">
                             <NavLink to="/confronto" className="nav-link">
-                                Confronta 🆚
+                                🆚 Confronta
                             </NavLink>
                         </li>
                     </ul>
 
-                    <form className="d-flex" role="search" onSubmit={handleSubmit}>
-                        <input className="form-control me-2"
+                    {/* Search Form */}
+                    <form className="d-flex flex-column flex-lg-row gap-2" onSubmit={handleSubmit}>
+                        <input 
+                            className="form-control" 
                             type="search"
-                            placeholder="Cerca qui..."
-                            aria-label="Search"
+                            placeholder="Cerca gioco..."
                             value={search}
-                            onChange={(e) => setSearch(e.target.value)} />
-
+                            onChange={(e) => setSearch(e.target.value)} 
+                        />
                         <select
                             className="form-select"
-                            style={{ width: "auto" }}
+                            style={{ minWidth: "150px" }}
                             value={selectedCategory}
                             onChange={(e) => setSelectedCategory(e.target.value)}
                         >
-                            <option value="">Tutte</option>
-                            {[...new Set(boardgames.map(bg => bg.category))].map(cat => (
+                            <option value="">Tutte le categorie</option>
+                            {[...new Set(boardgames.filter(bg => bg?.category).map(bg => bg.category))].map(cat => (
                                 <option key={cat} value={cat}>{cat}</option>
                             ))}
                         </select>
@@ -63,7 +77,7 @@ function Navbar() {
                 </div>
             </div>
         </nav>
-    )
+    );
 }
 
-export default React.memo(Navbar)
+export default React.memo(Navbar);
