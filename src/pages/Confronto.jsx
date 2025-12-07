@@ -13,7 +13,7 @@ function Confronto() {
     const [detailedGames, setDetailedGames] = useState([]);
     const [loading, setLoading] = useState(false);
 
-    // ✅ Carica i dettagli completi di tutti i giochi nel confronto
+    //Carica i dettagli completi di tutti i giochi nel confronto
     useEffect(() => {
         async function loadAllDetails() {
             if (compareList.length === 0) {
