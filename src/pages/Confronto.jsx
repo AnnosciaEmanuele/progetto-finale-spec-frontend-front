@@ -29,7 +29,6 @@ function Confronto() {
                     compareList.map(async (game) => {
                         try {
                             const fullData = await getSingleBoardgame(game.id ?? game._id);
-                            console.log("✅ Dettagli caricati per:", fullData.title);
                             return fullData;
                         } catch (err) {
                             console.error(`❌ Errore caricamento ${game.title}:`, err);
