@@ -104,15 +104,6 @@ function GlobalProvider({ children }) {
         setCompareList(compareList.filter(item => (item.id ?? item._id) !== id));
     }
 
-    // // Toggle comparatore
-    // function toggleCompare(game) {
-    //     const id = game.id ?? game._id;
-    //     if (compared.some(c => (c.id ?? c._id) === id)) {
-    //         setCompared(compared.filter(c => (c.id ?? c._id) !== id));
-    //     } else {
-    //         setCompared([...compared, game]);
-    //     }
-    // }
 
     //global context anche per la ricerca per averla a disposizione quando serve
     return (

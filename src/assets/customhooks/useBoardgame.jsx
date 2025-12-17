@@ -73,10 +73,10 @@ function useBoardgame() {
             throw new Error(`Errore: ${response.status}`);
         }
         
-        // ✅ IL BACKEND RESTITUISCE { success: true, boardgame: {...} }
+        // restituzione backend{ success: true, boardgame: {...} }
         const boardgame = data.boardgame || data; // Prendi data.boardgame
         
-        return boardgame; // ✅ Ritorna solo l'oggetto boardgame
+        return boardgame; // ritorno di un solo l'oggetto boardgame
     } catch (error) {
         console.error(`❌ Errore gioco ${id}:`, error);
         throw error;
