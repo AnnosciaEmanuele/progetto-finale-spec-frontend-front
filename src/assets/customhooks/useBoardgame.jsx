@@ -115,7 +115,7 @@ function useBoardgame() {
     // CRUD - Update
     const updateBoardgame = useCallback(async (updatedBoardgame) => {
         try {
-            const boardgameId = updatedBoardgame.id ?? updatedBoardgame._id;
+            const boardgameId = updatedBoardgame.id;
 
             const response = await fetch(`${urlList}/${boardgameId}`, {
                 method: "PUT",

@@ -31,7 +31,7 @@ function BoardgameDetails() {
             setBoardgame(data);
 
         } catch (err) {
-            console.error("❌ Errore caricamento dettagli:", err);
+            console.error("Errore caricamento dettagli:", err);
         } finally {
             setLoadingDetail(false);
         }
