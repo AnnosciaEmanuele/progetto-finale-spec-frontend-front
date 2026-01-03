@@ -19,7 +19,7 @@ function HoldButton({ onHoldComplete, holdTime = 2000, label, className = "" }) 
         setProgress(0);
         onHoldComplete();
       }
-    }, 20); // intervallo più fluido
+    }, 20);
   };
 
   const handleMouseUp = () => {

@@ -31,15 +31,15 @@ function Confronto() {
                             const fullData = await getSingleBoardgame(game.id ?? game._id);
                             return fullData;
                         } catch (err) {
-                            console.error(`❌ Errore caricamento ${game.title}:`, err);
-                            return game; // Fallback ai dati base
+                            console.error(`Errore caricamento ${game.title}:`, err);
+                            return game;
                         }
                     })
                 );
 
                 setDetailedGames(details);
             } catch (err) {
-                console.error("❌ Errore generale:", err);
+                console.error("Errore generale:", err);
             } finally {
                 setLoading(false);
             }

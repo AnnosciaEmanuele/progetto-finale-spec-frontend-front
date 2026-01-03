@@ -29,7 +29,7 @@ function EditModal({ show, onClose, boardgame, onSave, isNew = false }) {
       price: price ? parseFloat(price) : undefined,
     };
 
-    // Se non è nuovo, aggiungi l'id
+    // Se non è nuovo, aggiungo l'id
     if (!isNew && boardgame) {
       updatedBoardgame.id = boardgame.id ?? boardgame._id;
     }

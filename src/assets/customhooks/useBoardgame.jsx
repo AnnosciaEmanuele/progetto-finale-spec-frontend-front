@@ -18,14 +18,14 @@ function boardgamesReducer(state, action) {
             return {
                 ...state,
                 boardgames: state.boardgames.filter(
-                    (boardgame) => (boardgame.id ?? boardgame._id) !== action.payload
+                    (boardgame) => boardgame.id !== action.payload
                 )
             };
         case "UPDATE_BOARDGAME":
             return {
                 ...state,
                 boardgames: state.boardgames.map((boardgame) =>
-                    (boardgame.id ?? boardgame._id) === (action.payload.id ?? action.payload._id)
+                    boardgame.id === action.payload.id
                         ? action.payload
                         : boardgame
                 )
@@ -54,8 +54,9 @@ function useBoardgame() {
 
             dispatch({ type: "FETCH_SUCCESS", payload: data });
             return data;
+
         } catch (error) {
-            console.error("❌ Errore lista:", error);
+            console.error("Errore lista:", error);
             dispatch({ type: "FETCH_ERROR", payload: error });
             throw error;
         }
@@ -74,11 +75,12 @@ function useBoardgame() {
         }
         
         // restituzione backend{ success: true, boardgame: {...} }
+
         const boardgame = data.boardgame || data; // Prendi data.boardgame
         
         return boardgame; // ritorno di un solo l'oggetto boardgame
     } catch (error) {
-        console.error(`❌ Errore gioco ${id}:`, error);
+        console.error(`Errore gioco ${id}:`, error);
         throw error;
     }
 }, [urlList]);
