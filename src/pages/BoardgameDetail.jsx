@@ -16,6 +16,8 @@ function BoardgameDetails() {
         toggleFavorite,
         favorites,
         addToCompare,
+        removeFromCompare,
+        compareList,
     } = useContext(GlobalContext);
     
     const navigate = useNavigate();
@@ -55,6 +57,7 @@ function BoardgameDetails() {
     }
 
     const isFav = boardgame ? favorites.some(f => (f.id ?? f._id) === (boardgame.id ?? boardgame._id)) : false;
+    const isInCompare = boardgame ? compareList.some(c => (c.id ?? c._id) === (boardgame.id ?? boardgame._id)) : false;
 
     if (loadingDetail || loading) {
         return (
@@ -120,8 +123,11 @@ function BoardgameDetails() {
                     >
                         {isFav ? "❤️ Rimuovi dai preferiti" : "🤍 Aggiungi ai preferiti"}
                     </button>
-                    <button className="btn btn-outline-primary me-2" onClick={() => addToCompare(boardgame)}>
-                        🆚 Confronta
+                    <button 
+                        className={`btn me-2 ${isInCompare ? "btn-success" : "btn-outline-primary"}`}
+                        onClick={() => isInCompare ? removeFromCompare(boardgame) : addToCompare(boardgame)}
+                    >
+                        {isInCompare ? "✓ Aggiunto al confronto" : "🆚 Confronta"}
                     </button>
                     <button className="btn btn-secondary" onClick={() => navigate("/")}>
                         ← Torna alla lista

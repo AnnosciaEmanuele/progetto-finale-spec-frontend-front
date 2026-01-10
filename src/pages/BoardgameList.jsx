@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState, useMemo } from "react";
+import { useContext, useState, useMemo } from "react";
 import { GlobalContext } from "../context/GlobalContext";
 import TableRow from "../components/TableRow";
 import EditModal from "../components/EditModal";
@@ -15,7 +15,6 @@ function BoardgameList() {
     showModal,
     selectedGame,
     isNew,
-    openEditModal,
     openAddModal,
     closeModal,
     selectedCategory,
